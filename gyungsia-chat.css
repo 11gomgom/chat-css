@@ -56,6 +56,12 @@ html, body {
   margin-bottom: calc(var(--u) * -12) !important;
 }
 
+/* 치지직 목록은 거꾸로(column-reverse)라 첫 번째 요소가 맨 아래 최신 채팅.
+   음수 여백을 빼고 약간 띄워야 파란 별이 화면 아래에서 안 잘려요 */
+#root > [class^="_chatting_"] > [class*="_item_"][class*="_message_"]:first-child {
+  margin-bottom: calc(var(--u) * 8) !important;
+}
+
 /* 파란 별 (왼쪽 아래) */
 #root > [class^="_chatting_"] > [class*="_item_"][class*="_message_"]::before {
   content: '';
