@@ -100,10 +100,10 @@ html, body {
   min-height: calc(var(--u) * 70.42);
   overflow: visible !important;  /* 치지직 기본값(hidden)이면 장식이 잘려요 */
   /* 위 여백을 더 줘서 글자를 살짝 아래로 */
-  padding: calc(var(--u) * 20.99) calc(var(--u) * 100) calc(var(--u) * 12.99) !important;
+  padding: calc(var(--u) * 18.29) calc(var(--u) * 100) calc(var(--u) * 10.29) !important;
   background: none !important;
   font-family: var(--font) !important;
-  font-size: calc(var(--u) * 27) !important;
+  font-size: calc(var(--u) * 31) !important;
   line-height: 1.35 !important;
   transform-origin: 10% 50%;
   animation:
@@ -149,7 +149,7 @@ html, body {
 #root > [class^="_chatting_"] > [class*="_item_"][class*="_message_"] > [class*="_is_overlay_"] > [class*="_wrapper_"] > [class*="_text_"] {
   color: var(--text);          /* !important 를 붙이면 등장 모션이 안 먹어요 */
   font-family: var(--font) !important;
-  font-size: calc(var(--u) * 27) !important;
+  font-size: calc(var(--u) * 31) !important;
   background: none !important;
   word-break: break-all;
   text-align: center;
