@@ -69,7 +69,7 @@ html, body {
   pointer-events: none;
   animation:
     star-pop .8s .12s cubic-bezier(.3, 1.5, .5, 1) both,
-    star-float 4s 1s ease-in-out infinite;
+    star-float 3.4s 1s ease-in-out infinite;
 }
 
 /* 리본 끝 나뭇잎 (오른쪽 위, 매듭을 축으로 흔들림) */
@@ -84,7 +84,9 @@ html, body {
   background: var(--ribbon-leaves) center / 100% 100% no-repeat;
   transform-origin: 5.33% 74.69%;
   pointer-events: none;
-  animation: leaf-boing .95s .45s cubic-bezier(.3, 1.4, .5, 1) both;
+  animation:
+    leaf-boing .95s .45s cubic-bezier(.3, 1.4, .5, 1) both,
+    leaf-sway 3s 1.4s ease-in-out infinite;
 }
 
 /* ---------- 배너 본체 ---------- */
@@ -224,7 +226,7 @@ html, body {
 }
 @keyframes star-float {
   0%, 100% { transform: none; }
-  50%      { transform: translateY(calc(var(--u) * -3)) rotate(3deg); }
+  50%      { transform: translateY(calc(var(--u) * -7)) rotate(10deg) scale(1.04); }
 }
 /* 리본 나뭇잎: 등장할 때 뾰용~ 하고 흔들림 (띠는 고정) */
 @keyframes leaf-boing {
@@ -234,6 +236,12 @@ html, body {
   58%  { transform: scale(1.04) rotate(7deg); }
   76%  { transform: scale(.99) rotate(-3deg); }
   100% { opacity: 1; transform: none; }
+}
+/* 리본 나뭇잎: 등장 후 매듭을 축으로 살랑살랑 */
+@keyframes leaf-sway {
+  0%, 100% { transform: none; }
+  30%      { transform: rotate(10deg); }
+  70%      { transform: rotate(-8deg); }
 }
 /* 매달린 별 장식: 좌우로 살랑 */
 @keyframes hang-swing {
