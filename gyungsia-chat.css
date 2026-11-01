@@ -36,33 +36,28 @@
 }
 
 /* 배경 투명 */
-html, body,
-[class*="live_chatting_container"],
-[class*="live_chatting_list_container"],
-[class*="live_chatting_list_wrapper"] {
+html, body {
   background: transparent !important;
   overflow: hidden !important;
 }
 
-/* 필요 없는 UI + 닉네임/뱃지 숨기기 */
-[class*="live_chatting_header"],
-[class*="live_chatting_input"],
-[class*="live_chatting_fixed"],
-[class*="live_chatting_scroll_button"],
-[class*="live_chatting_message_nickname"],
-[class*="live_chatting_username_container"] {
+/* 닉네임/뱃지 숨기기 */
+#root > [class^="_chatting_"] > [class*="_item_"][class*="_message_"] > [class*="_is_overlay_"] > [class*="_wrapper_"] > :not([class*="_text_"]) {
   display: none !important;
 }
 
 /* ---------- 채팅 한 줄 (장식이 배너 밖으로 튀어나올 자리) ---------- */
-[class*="live_chatting_list_item"] {
+#root > [class^="_chatting_"] > [class*="_item_"][class*="_message_"] {
   position: relative;
+  background: none !important;   /* 치지직 기본 검은 말풍선 제거 */
+  border-radius: 0 !important;
+  max-width: none !important;
   padding: calc(var(--u) * 20.08) calc(var(--u) * 40.74) calc(var(--u) * 23.86) calc(var(--u) * 33.76) !important;
   margin-bottom: calc(var(--u) * -12) !important;
 }
 
 /* 파란 별 (왼쪽 아래) */
-[class*="live_chatting_list_item"]::before {
+#root > [class^="_chatting_"] > [class*="_item_"][class*="_message_"]::before {
   content: '';
   position: absolute;
   z-index: 3;
@@ -78,7 +73,7 @@ html, body,
 }
 
 /* 리본 끝 나뭇잎 (오른쪽 위, 매듭을 축으로 흔들림) */
-[class*="live_chatting_list_item"]::after {
+#root > [class^="_chatting_"] > [class*="_item_"][class*="_message_"]::after {
   content: '';
   position: absolute;
   z-index: 3;
@@ -93,7 +88,7 @@ html, body,
 }
 
 /* ---------- 배너 본체 ---------- */
-[class*="live_chatting_message_chatting_message"] {
+#root > [class^="_chatting_"] > [class*="_item_"][class*="_message_"] > [class*="_is_overlay_"] > [class*="_wrapper_"] {
   position: relative !important;
   isolation: isolate;
   display: inline-flex !important;
@@ -103,6 +98,7 @@ html, body,
   min-width: calc(var(--u) * 280);
   max-width: 100%;
   min-height: calc(var(--u) * 70.42);
+  overflow: visible !important;  /* 치지직 기본값(hidden)이면 장식이 잘려요 */
   /* 위 여백을 더 줘서 글자를 살짝 아래로 */
   padding: calc(var(--u) * 20.99) calc(var(--u) * 100) calc(var(--u) * 12.99) !important;
   background: none !important;
@@ -116,8 +112,8 @@ html, body,
 }
 
 /* 몸통: 그라데이션 + 별 점 + 흰 테두리 + 빛줄기 */
-[class*="live_chatting_message_chatting_message"]::before,
-[class*="live_chatting_message_chatting_message"]::after {
+#root > [class^="_chatting_"] > [class*="_item_"][class*="_message_"] > [class*="_is_overlay_"] > [class*="_wrapper_"]::before,
+#root > [class^="_chatting_"] > [class*="_item_"][class*="_message_"] > [class*="_is_overlay_"] > [class*="_wrapper_"]::after {
   content: '';
   position: absolute;
   z-index: -1;
@@ -125,7 +121,7 @@ html, body,
   border-radius: calc(var(--u) * 34.92);
   pointer-events: none;
 }
-[class*="live_chatting_message_chatting_message"]::before {
+#root > [class^="_chatting_"] > [class*="_item_"][class*="_message_"] > [class*="_is_overlay_"] > [class*="_wrapper_"]::before {
   background:
     linear-gradient(105deg, transparent calc(var(--shine-x) - 14%), rgba(255, 255, 255, var(--shine-a)) var(--shine-x), transparent calc(var(--shine-x) + 14%)),
     var(--dots-a) left top / calc(var(--u) * 170) calc(var(--u) * 70) repeat,
@@ -139,7 +135,7 @@ html, body,
     shine-soft 7s 2.5s ease-in-out infinite;
 }
 /* 반짝이는 별 점 + 안쪽 반짝이 (은은하게 깜빡) */
-[class*="live_chatting_message_chatting_message"]::after {
+#root > [class^="_chatting_"] > [class*="_item_"][class*="_message_"] > [class*="_is_overlay_"] > [class*="_wrapper_"]::after {
   background:
     var(--inner-left) left calc(var(--u) * 39.87) top calc(var(--u) * 27.94) / calc(var(--u) * 35.21) calc(var(--u) * 32.3) no-repeat,
     var(--inner-right) right calc(var(--u) * 22.41) bottom calc(var(--u) * 12.51) / calc(var(--u) * 48.89) calc(var(--u) * 26.77) no-repeat,
@@ -150,7 +146,7 @@ html, body,
 }
 
 /* ---------- 채팅 내용 ---------- */
-[class*="live_chatting_message_text"] {
+#root > [class^="_chatting_"] > [class*="_item_"][class*="_message_"] > [class*="_is_overlay_"] > [class*="_wrapper_"] > [class*="_text_"] {
   color: var(--text);          /* !important 를 붙이면 등장 모션이 안 먹어요 */
   font-family: var(--font) !important;
   font-size: calc(var(--u) * 27) !important;
@@ -161,13 +157,13 @@ html, body,
     text-in .55s .3s cubic-bezier(.2, .8, .2, 1) both,
     text-glow 3.2s 1.2s ease-in-out infinite;
 }
-[class*="live_chatting_message_text"] img {
+#root > [class^="_chatting_"] > [class*="_item_"][class*="_message_"] > [class*="_is_overlay_"] > [class*="_wrapper_"] > [class*="_text_"] img {
   height: 1.3em !important;
   vertical-align: middle;
 }
 
 /* 고정 장식: 왼쪽 위 별 2개, 위/아래 테두리 반짝이, 리본 띠 (위치 기준은 배너 본체) */
-[class*="live_chatting_message_text"]::after {
+#root > [class^="_chatting_"] > [class*="_item_"][class*="_message_"] > [class*="_is_overlay_"] > [class*="_wrapper_"] > [class*="_text_"]::after {
   content: '';
   position: absolute;
   z-index: 1;
@@ -184,7 +180,7 @@ html, body,
 }
 
 /* 오른쪽 아래 매달린 별 장식 (흔들흔들) */
-[class*="live_chatting_message_text"]::before {
+#root > [class^="_chatting_"] > [class*="_item_"][class*="_message_"] > [class*="_is_overlay_"] > [class*="_wrapper_"] > [class*="_text_"]::before {
   content: '';
   position: absolute;
   z-index: 1;
