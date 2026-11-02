@@ -171,8 +171,13 @@ html, body {
     text-in .55s .3s cubic-bezier(.2, .8, .2, 1) both,
     text-glow 3.2s 1.2s ease-in-out infinite;
 }
+/* 이모티콘: 치지직 기본값이 가로 48px 고정이라 높이만 바꾸면 눌려 보여요 → 가로는 비율대로 */
 #root > [class^="_chatting_"] > [class*="_item_"][class*="_message_"] > [class*="_is_overlay_"] > [class*="_wrapper_"] > [class*="_text_"] img {
-  height: 1.3em !important;
+  width: auto !important;
+  height: 1.4em !important;
+  max-width: none !important;
+  object-fit: contain;
+  margin: calc(var(--u) * -3) calc(var(--u) * 2) !important;
   vertical-align: middle;
 }
 
