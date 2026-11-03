@@ -42,8 +42,17 @@ html, body {
   overflow: hidden !important;
 }
 
-/* 닉네임/뱃지 숨기기 */
+/* 닉네임/뱃지 숨기기: 자리는 0으로 만들고 내용만 숨김 (이 칸을 매달린 별 장식 자리로 씀) */
 #root > [class^="_chatting_"] > [class*="_item_"][class*="_message_"] > [class*="_is_overlay_"] > [class*="_wrapper_"] > :not([class*="_text_"]) {
+  display: inline !important;
+  position: static !important;
+  width: 0 !important;
+  height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  font-size: 0 !important;
+}
+#root > [class^="_chatting_"] > [class*="_item_"][class*="_message_"] > [class*="_is_overlay_"] > [class*="_wrapper_"] > :not([class*="_text_"]) > * {
   display: none !important;
 }
 
@@ -58,18 +67,19 @@ html, body {
 }
 
 /* 치지직 목록은 거꾸로(column-reverse)라 첫 번째 요소가 맨 아래 최신 채팅.
-   음수 여백을 빼고 약간 띄워야 하트가 화면 아래에서 안 잘려요 */
+   음수 여백을 빼고 약간 띄워야 하트/장식이 화면 아래에서 안 잘려요 */
 #root > [class^="_chatting_"] > [class*="_item_"][class*="_message_"]:first-child {
   margin-bottom: calc(var(--u) * 8) !important;
 }
 
-/* 하트 (왼쪽 아래) */
-#root > [class^="_chatting_"] > [class*="_item_"][class*="_message_"]::before {
+/* 하트 (왼쪽 아래): 스트리머·매니저 채팅에만.
+   치지직은 이 두 사람의 채팅 글자에만 칭호 색(style="color: ...")을 직접 넣어서 그걸로 구분해요 */
+#root > [class^="_chatting_"] > [class*="_item_"][class*="_message_"] > [class*="_is_overlay_"] > [class*="_wrapper_"] > [class*="_text_"][style*="color"]::before {
   content: '';
   position: absolute;
   z-index: 3;
-  left: calc(var(--u) * 1.16);
-  bottom: calc(var(--u) * 3.49);
+  left: calc(var(--u) * -9.89);
+  bottom: calc(var(--u) * -10.77);
   width: calc(var(--u) * 44.23);
   height: calc(var(--u) * 44.23);
   background: var(--heart) center / 100% 100% no-repeat;
@@ -199,7 +209,7 @@ html, body {
 }
 
 /* 오른쪽 아래 매달린 별 장식 (흔들흔들) */
-#root > [class^="_chatting_"] > [class*="_item_"][class*="_message_"] > [class*="_is_overlay_"] > [class*="_wrapper_"] > [class*="_text_"]::before {
+#root > [class^="_chatting_"] > [class*="_item_"][class*="_message_"] > [class*="_is_overlay_"] > [class*="_wrapper_"] > :not([class*="_text_"])::before {
   content: '';
   position: absolute;
   z-index: 1;
