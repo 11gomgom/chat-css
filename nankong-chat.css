@@ -20,9 +20,7 @@
   --u: 0.5px;                    /* 전체 크기 (1 = 시안 원본 크기) */
   --font: 'Jua', 'BMJUA', sans-serif;
   --ink: #3b754f;                /* 일반 채팅 글자 / 닉네임 글자 */
-  --nick-ink: #2c5c3c;           /* 닉네임 글자 (채팅 글자보다 조금 진하게) */
-  --nick-outline: #ffffff;       /* 닉네임 글자 외곽선 색 */
-  --banner: linear-gradient(161deg, #c1df9f 20%, #effada 70%);
+  --nick-ink: #2c5c3c;           /* 닉네임 글자 (채팅 글자보다 조금 진하게) */  --banner: linear-gradient(161deg, #c1df9f 20%, #effada 70%);
   --pill: #effada;
   --don-banner: linear-gradient(161deg, #689f7f 20%, #3f6953 70%);
   --don-pill: #c2df9d;
@@ -148,12 +146,9 @@ html, body {
 #root > [class^="_chatting_"] > [class*="_item_"][class*="_message_"] > [class*="_is_overlay_"] > [class*="_wrapper_"] > :not([class*="_text_"]) > [class*="_nickname_"] * {
   color: var(--nick-ink) !important;
   font-family: var(--font) !important;
-  font-size: calc(var(--u) * 40) !important;
+  font-size: calc(var(--u) * 44) !important;   /* 시안(40)보다 살짝 크게 */
   font-weight: normal !important;
   line-height: 1 !important;
-  /* 닉네임 글자 뒤에 흰색 2pt 외곽선 (선 굵기의 절반은 글자에 가려져서 4pt 로 그려요) */
-  -webkit-text-stroke: calc(var(--u) * 4) var(--nick-outline);
-  paint-order: stroke fill;
 }
 #root > [class^="_chatting_"] > [class*="_item_"][class*="_message_"] > [class*="_is_overlay_"] > [class*="_wrapper_"] > :not([class*="_text_"]) > [class*="_nickname_"] * {
   background: none !important;   /* 치지직 닉네임 하이라이트 색 제거 */
