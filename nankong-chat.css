@@ -330,7 +330,7 @@ html, body {
 }
 /* 후원 메시지 */
 #root > [class^="_chatting_"] > [class*="_item_"][class*="_message_"]:has(> [class*="_is_overlay_"] > [class*="_wrapper_"] > [class*="_text_"] > :is(br, em)) > [class*="_is_overlay_"] > [class*="_wrapper_"] > [class*="_text_"] {
-  margin-top: calc(var(--u) * -3);
+  margin-top: calc(var(--u) * 17);   /* 금액 줄을 기본 크기 기준 5px 아래로 */
   color: var(--don-text) !important;
   font-size: calc(var(--u) * 46) !important;
 }
@@ -339,7 +339,7 @@ html, body {
   color: var(--don-amount);
   font-family: 'NKBlank', var(--font);
   font-size: calc(var(--u) * 62);
-  line-height: 1.45;
+  line-height: calc(var(--u) * 69.9); /* 위 여백을 늘린 만큼 줄여서 메시지 줄은 제자리 */
   word-spacing: calc(var(--u) * 62);
   text-shadow: 0 0 calc(var(--u) * 6) rgba(255, 255, 255, .55);
   background:
