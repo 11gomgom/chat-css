@@ -20,7 +20,7 @@
   --u: 0.5px;                    /* 전체 크기 (1 = 시안 원본 크기) */
   --font: 'Jua', 'BMJUA', sans-serif;
   --ink: #3b754f;                /* 일반 채팅 글자 / 닉네임 글자 */
-  --nick-ink: #2c5c3c;           /* 닉네임 글자 (채팅 글자보다 조금 진하게) */  --banner: linear-gradient(161deg, #c1df9f 20%, #effada 70%);
+  --nick-ink: #2c5c3c;           /* 닉네임 글자 (채팅 글자보다 조금 진하게) */  --banner: linear-gradient(161deg, #b4d690 20%, #e2f2c8 70%);   /* 시안(#c1df9f→#effada)보다 살짝 어둡게 */
   --pill: #effada;
   --don-banner: linear-gradient(161deg, #689f7f 20%, #3f6953 70%);
   --don-pill: #c2df9d;
