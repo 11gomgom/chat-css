@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="ko" class="theme_dark">
+<head>
+<meta charset="utf-8">
+<title>난콩님 채팅 CSS 테스트</title>
+<!--
+  OBS 브라우저 소스용 테스트 페이지
+  - 치지직 채팅 오버레이와 같은 HTML 구조로 가짜 채팅을 띄워요
+  - 후원 채팅은 실제 치지직처럼 "님이 N치즈를 후원했습니다." + <br> + 메시지 구조로 만들어요
+  - 사용자 지정 CSS 칸은 비워 두세요. 아래에서 CSS 를 직접 불러와요
+
+  주소 옵션 (주소 뒤에 ?옵션=값&옵션=값)
+    v=2.3        불러올 CSS 버전 (기본 2.3)
+    every=2500   새 채팅 간격 ms (기본 2500)
+    only=don     후원 채팅만 계속 띄우기
+-->
+<style>
+  /* 치지직 오버레이 기본 스타일 중 채팅에 필요한 부분만 (2026-11 기준) */
+  ._chatting_1ia4h_1 { height: 100vh; display: flex; flex-direction: column-reverse; align-items: flex-start;
+    margin: 0 auto; position: relative; overflow-y: auto; scrollbar-width: none;
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 70px); mask-image: linear-gradient(to bottom, transparent 0, #000 70px); }
+  ._chatting_1ia4h_1::-webkit-scrollbar { display: none; }
+  ._item_1ia4h_20 { margin-bottom: 12px; }
+  ._message_1ia4h_27 { background-color: rgba(0, 0, 0, .6); border-radius: 14px; max-width: 520px; }
+  ._container_jbnq0_1._is_overlay_jbnq0_1 ._wrapper_jbnq0_15 { padding: 8px 13px; font-size: 24px; line-height: 32px; overflow: hidden; }
+  ._container_jbnq0_1._is_overlay_jbnq0_1 ._text_jbnq0_1 { color: #fff; }
+  ._container_jbnq0_1._is_overlay_jbnq0_1 ._text_jbnq0_1 em { color: #00ffa3; }
+  ._container_jbnq0_1._is_overlay_jbnq0_1 ._text_jbnq0_1 img { width: 48px; height: 48px; margin: 4px 0 4px 6px; }
+  ._wrapper_jbnq0_15 { word-break: break-all; overflow-wrap: anywhere; }
+</style>
+<script>
+  // 난콩님 채팅 CSS 를 OBS 와 똑같이 @import 로 불러와요
+  var Q = new URLSearchParams(location.search);
+  var V = (Q.get('v') || '2.3').replace(/[^0-9a-zA-Z.\-]/g, '');
+  document.write('<style>@import url("https://cdn.jsdelivr.net/gh/11gomgom/chat-css@' + V + '/nankong-chat.css");</style>');
+</script>
+</head>
+<body style="background-color: transparent; margin: 0px; overflow: hidden;">
+<div id="root"><div class="_chatting_1ia4h_1" id="list"></div></div>
+<script>
+  var users = ['닉네임123', '개굴개굴', '연못지기', '초록콩'];
+  var msgs = ['한 줄 채팅 나오는 공간입니다!', '안녕하세요', '한 줄 채팅 나오는 공간입니다! 두 줄 채팅 나오는 공간입니다!', 'ㅋㅋㅋㅋㅋ', '오늘 방송 재밌다'];
+  var ROT = ['chat', 'donation', 'chat', 'staff', 'donation2', 'chat', 'mission', 'chat', 'donation3'];
+  var DON = ['donation', 'donation2', 'donation3', 'mission'];
+  var list = document.getElementById('list');
+  var n = 0;
+
+  function add() {
+    var kind = Q.get('only') === 'don' ? DON[n % DON.length] : ROT[n % ROT.length];
+    var staff = kind === 'staff';
+    var don = kind.indexOf('donation') === 0 || kind === 'mission';
+    // 치지직 오버레이: 후원자 닉네임은 흰색, 스트리머·매니저는 칭호 색, 그 외는 닉네임 색
+    var col = don ? 'rgb(255, 255, 255)' : staff ? 'rgb(217, 176, 79)' : 'rgb(126, 139, 194)';
+    var text = msgs[n % msgs.length];
+    var amount = ['1,000', '5,000', '10,000', '100,000'][n % 4];
+    if (kind === 'donation') text = '님이 ' + amount + '치즈를 후원했습니다.<br>도네 내용 나오는 공간입니다!';
+    if (kind === 'donation2') text = '님이 ' + amount + '치즈를 후원했습니다.<br>도네 내용 나오는 공간입니다! 두 줄 도네 내용 나오는 공간입니다!';
+    if (kind === 'donation3') text = '님이 ' + amount + '치즈를 후원했습니다.<br>도네 내용 나오는 공간입니다! 두 줄 도네 내용 나오는 공간입니다! 세 줄 도네 내용 나오는 공간입니다!';
+    if (kind === 'mission') text = '<em>' + amount + '치즈 미션</em>&nbsp;노래 한 곡 불러주세요';
+    var item = document.createElement('div');
+    item.className = '_item_1ia4h_20 _message_1ia4h_27';
+    item.innerHTML = '<div class="_container_jbnq0_1 _is_overlay_jbnq0_1"><div class="_wrapper_jbnq0_15">'
+      + '<span class="_container_a6uv5_2 _is_message_a6uv5_5 _is_overlay_a6uv5_5" style="margin-right: 6px;">'
+      + '<span class="_nickname_a6uv5_43" style="color: ' + col + ';"><span class=""><span class="_text_1c2bf_2">' + users[n % users.length] + '</span></span></span></span>'
+      + '<span class="_text_jbnq0_1"' + (staff ? ' style="color: ' + col + ';"' : '') + '>' + text + '</span></div></div>';
+    list.insertBefore(item, list.firstChild);   // 치지직처럼 최신 채팅이 목록 맨 앞
+    while (list.children.length > 10) list.removeChild(list.lastChild);
+    n++;
+  }
+  for (var i = 0; i < 3; i++) add();
+  setInterval(add, +(Q.get('every') || 2500));
+</script>
+</body>
+</html>
