@@ -1,0 +1,669 @@
+/* =========================================================
+   위플랩 채팅창 - 청서화님 별자리 채팅 (치지직 연결용)
+   사용법: 위플랩 > 채팅창 설정 > 커스텀 CSS 켜기 > 이 내용을 전부 붙여넣고 저장
+           (위플랩에 저장되니까 OBS · 프리즘 모바일 어디에 위젯 주소를 넣어도 똑같이 나와요)
+   추천 설정: 후원 표시 = 이미지 / 채팅 정렬 = 아무거나 (CSS 가 덮어써요)
+   크기 조절: 아래 --u 값만 바꾸면 전체가 같이 커지고 작아져요
+     (1px = 시안 원본 크기 / 기본 0.5px = 1920x1080 방송에 알맞은 크기)
+   일반 채팅: 남색 별자리 배너 + 닉네임 리본 + 날개 별
+   치즈 후원 · 영상 후원 · 미션 · 구독: 별하늘 티켓 + 금액 강조 + 큰 날개 별
+   ========================================================= */
+
+/* 글꼴: 던파 연단된 칼날 (넥슨 공식 배포) */
+@font-face { font-family: 'SeohwaDNF'; src: url('https://cdn.df.nexon.com/img/common/font/DNFForgedBlade-Light.otf') format('opentype'); font-weight: 300; font-display: swap; }
+@font-face { font-family: 'SeohwaDNF'; src: url('https://cdn.df.nexon.com/img/common/font/DNFForgedBlade-Medium.otf') format('opentype'); font-weight: 500; font-display: swap; }
+@font-face { font-family: 'SeohwaDNF'; src: url('https://cdn.df.nexon.com/img/common/font/DNFForgedBlade-Bold.otf') format('opentype'); font-weight: 700; font-display: swap; }
+
+:root {
+  --u: 0.5px;                       /* 전체 크기 (1px = 시안 원본) */
+  --font: 'SeohwaDNF', 'Pretendard', sans-serif;
+  --cream: #fdffd0;                 /* 닉네임·장식 크림색 */
+  --chat-text: #ffffff;             /* 일반 채팅 글자 */
+  --don-amount: #ffffff;            /* 후원 금액 */
+  --don-text: #fdffd0;              /* 후원 메시지 */
+  --don-unit: '치즈';               /* 후원 금액 뒤에 붙는 단위 */
+  --gap: calc(var(--u) * 14);       /* 채팅 사이 간격 */
+
+  --frame: url('https://cdn.jsdelivr.net/gh/11gomgom/chat-css@2.6/assets/cheongseohwa/frame.webp');
+  --pill-l: url('https://cdn.jsdelivr.net/gh/11gomgom/chat-css@2.6/assets/cheongseohwa/pill-l.webp');
+  --pill-r: url('https://cdn.jsdelivr.net/gh/11gomgom/chat-css@2.6/assets/cheongseohwa/pill-r.webp');
+  --pill-mid: url('https://cdn.jsdelivr.net/gh/11gomgom/chat-css@2.6/assets/cheongseohwa/pill-mid.webp');
+  --star-l: url('https://cdn.jsdelivr.net/gh/11gomgom/chat-css@2.6/assets/cheongseohwa/starbody-l.webp');
+  --star-r: url('https://cdn.jsdelivr.net/gh/11gomgom/chat-css@2.6/assets/cheongseohwa/starbody-r.webp');
+  --wing-l: url('https://cdn.jsdelivr.net/gh/11gomgom/chat-css@2.6/assets/cheongseohwa/wing-l.webp');
+  --wing-r: url('https://cdn.jsdelivr.net/gh/11gomgom/chat-css@2.6/assets/cheongseohwa/wing-r.webp');
+  --glow-mask: url('https://cdn.jsdelivr.net/gh/11gomgom/chat-css@2.6/assets/cheongseohwa/outline-glow.webp');
+  --sky-twinkle: url("https://cdn.jsdelivr.net/gh/11gomgom/chat-css@2.6/assets/cheongseohwa/twinkle.svg");
+  --shine: rgba(255, 252, 214, .95);  /* 테두리 반짝임 빛 색 */
+  --dia-l: url('https://cdn.jsdelivr.net/gh/11gomgom/chat-css@2.6/assets/cheongseohwa/diamond-l.webp');
+  --dia-r: url('https://cdn.jsdelivr.net/gh/11gomgom/chat-css@2.6/assets/cheongseohwa/diamond-r.webp');
+  --spk-l: url('https://cdn.jsdelivr.net/gh/11gomgom/chat-css@2.6/assets/cheongseohwa/sparkle-l.webp');
+  --spk-r: url('https://cdn.jsdelivr.net/gh/11gomgom/chat-css@2.6/assets/cheongseohwa/sparkle-r.webp');
+  --con-l1: url('https://cdn.jsdelivr.net/gh/11gomgom/chat-css@2.6/assets/cheongseohwa/const-l1.webp');
+  --con-l2: url('https://cdn.jsdelivr.net/gh/11gomgom/chat-css@2.6/assets/cheongseohwa/const-l2.webp');
+  --con-r1: url('https://cdn.jsdelivr.net/gh/11gomgom/chat-css@2.6/assets/cheongseohwa/const-r1.webp');
+  --con-r2: url('https://cdn.jsdelivr.net/gh/11gomgom/chat-css@2.6/assets/cheongseohwa/const-r2.webp');
+  --ticket: url('https://cdn.jsdelivr.net/gh/11gomgom/chat-css@2.6/assets/cheongseohwa/donation-base.webp');
+  --donation-word: url('https://cdn.jsdelivr.net/gh/11gomgom/chat-css@2.6/assets/cheongseohwa/donation-word.webp');
+  --twinkle-w: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 36 36'%3E%3Cpath d='M18 0C18.6 10.2 21.2 16.1 36 18 21.2 19.9 18.6 25.8 18 36 17.4 25.8 14.8 19.9 0 18 14.8 16.1 17.4 10.2 18 0Z' fill='%23ffffff'/%3E%3C/svg%3E");
+  --tip: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 38'%3E%3Cpath d='M10 0C10.4 9 12.6 15.5 20 19 12.6 22.5 10.4 29 10 38 9.6 29 7.4 22.5 0 19 7.4 15.5 9.6 9 10 0Z' fill='%23fdffd0'/%3E%3C/svg%3E");
+}
+
+/* 배경 투명 */
+html, body {
+  background: transparent !important;
+}
+#page_wrap .page_area.chat .chat_list {
+  padding: 0 !important;
+}
+#page_wrap .page_area.chat .chat_area {
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+
+/* =========================================================
+   일반 채팅
+   ========================================================= */
+#page_wrap .page_area.chat .chat_list > .chat_box.chat {
+  position: relative;
+  display: block !important;
+  float: none !important;
+  box-sizing: border-box;
+  width: 100% !important;
+  max-width: none !important;
+  margin: 0 !important;
+  padding: calc(var(--u) * 40) calc(var(--u) * 10) var(--gap) !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: none !important;
+  box-shadow: none !important;
+  text-shadow: none !important;
+  text-align: center !important;
+  animation: sh-unfold .6s cubic-bezier(.2, .9, .3, 1.1) both !important;   /* 가운데서 좌우로 펼쳐지며 등장 */
+}
+
+/* ---------- 배너 본체 (별자리 판 + 남색 몸통, 9분할로 늘어나요) ---------- */
+#page_wrap .page_area.chat .chat_list > .chat_box.chat > .inner_box {
+  position: relative !important;
+  display: block !important;
+  box-sizing: border-box;
+  width: auto !important;
+  min-height: calc(var(--u) * 174);
+  overflow: visible !important;
+  margin: 0 !important;
+  padding: 0 calc(var(--u) * 6) !important;
+  border-radius: 0 !important;
+  border-style: solid !important;
+  border-color: transparent !important;
+  border-width: calc(var(--u) * 54) calc(var(--u) * 112) calc(var(--u) * 52) !important;
+  border-image: var(--frame) 54 112 52 fill / calc(var(--u) * 54) calc(var(--u) * 112) calc(var(--u) * 52) stretch !important;
+  /* 9분할 이음새에 틈이 생겨도 비치지 않게, 같은 색을 아래에 깔아요 */
+  background:
+    linear-gradient(#2b324e, #21263d) left calc(var(--u) * 16) top calc(var(--u) * 45) / calc(var(--u) * 72) calc(100% - var(--u) * 90) no-repeat,
+    linear-gradient(#2f3961, #202848) right calc(var(--u) * 16) top calc(var(--u) * 45) / calc(var(--u) * 72) calc(100% - var(--u) * 90) no-repeat,
+    linear-gradient(#43518b, #2e3967) left calc(var(--u) * 104) top calc(var(--u) * 16) / calc(100% - var(--u) * 208) calc(100% - var(--u) * 30) no-repeat !important;
+  background-origin: border-box !important;
+  background-clip: border-box !important;
+  box-shadow: none !important;
+  font-family: var(--font) !important;
+  font-size: calc(var(--u) * 52.7) !important;
+  line-height: calc(var(--u) * 68) !important;
+  text-align: center !important;
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+}
+/* 양옆 다이아 · 판 경계 반짝이 · 별자리 4개 (빛이 숨쉬듯) */
+#page_wrap .page_area.chat .chat_list > .chat_box.chat > .inner_box::before {
+  content: '' !important;
+  display: block !important;
+  position: absolute;
+  z-index: 1;
+  top: calc(var(--u) * -54);
+  bottom: calc(var(--u) * -52);
+  left: calc(var(--u) * -112);
+  right: calc(var(--u) * -112);
+  pointer-events: none;
+  background:
+    var(--dia-l) left calc(var(--u) * 2.5) center / calc(var(--u) * 19) calc(var(--u) * 39) no-repeat,
+    var(--dia-r) right calc(var(--u) * 2.5) center / calc(var(--u) * 19) calc(var(--u) * 39) no-repeat,
+    var(--spk-l) left calc(var(--u) * 80.3) center / calc(var(--u) * 21.5) calc(var(--u) * 60.5) no-repeat,
+    var(--spk-r) right calc(var(--u) * 80.3) center / calc(var(--u) * 21) calc(var(--u) * 59.5) no-repeat,
+    var(--con-l1) left calc(var(--u) * 28.3) top calc(var(--u) * 67.7) / calc(var(--u) * 34) calc(var(--u) * 27) no-repeat,
+    var(--con-l2) left calc(var(--u) * 44) bottom calc(var(--u) * 38.3) / calc(var(--u) * 30.7) calc(var(--u) * 31) no-repeat,
+    var(--con-r1) right calc(var(--u) * 38.7) top calc(var(--u) * 70.7) / calc(var(--u) * 34.7) calc(var(--u) * 33) no-repeat,
+    var(--con-r2) right calc(var(--u) * 40.7) bottom calc(var(--u) * 32.3) / calc(var(--u) * 31.7) calc(var(--u) * 30) no-repeat !important;
+  animation: sh-glow 2.8s 1s ease-in-out infinite;
+}
+/* 양쪽 위 별 (날개는 아래에서 따로 파닥파닥) */
+#page_wrap .page_area.chat .chat_list > .chat_box.chat > .inner_box::after {
+  content: '' !important;
+  display: block !important;
+  position: absolute;
+  z-index: 3;
+  top: calc(var(--u) * -91.25);
+  left: calc(var(--u) * -120);
+  right: calc(var(--u) * -120.5);
+  height: calc(var(--u) * 95);
+  pointer-events: none;
+  background:
+    var(--star-l) left top / calc(var(--u) * 95) calc(var(--u) * 95) no-repeat,
+    var(--star-r) right top / calc(var(--u) * 95) calc(var(--u) * 95) no-repeat !important;
+  animation: sh-star-in .7s .15s cubic-bezier(.3, 1.5, .5, 1) both;
+}
+/* 날개: 별 뒤에서 계속 파닥파닥 (위플랩 장식 칸 .obj 의 앞뒤 자리를 빌려 배너 기준으로 배치) */
+#page_wrap .page_area.chat .chat_list > .chat_box.chat > .inner_box > .obj {
+  position: static !important;
+  display: block !important;
+  width: 0 !important;
+  height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  background: none !important;
+}
+#page_wrap .page_area.chat .chat_list > .chat_box.chat > .inner_box > .obj::before,
+#page_wrap .page_area.chat .chat_list > .chat_box.chat > .inner_box > .obj::after {
+  content: '' !important;
+  display: block !important;
+  position: absolute;
+  z-index: 2;
+  top: calc(var(--u) * (-37.25 - 54));   /* 배너 테두리 두께만큼 보정 */
+  width: calc(var(--u) * 95);
+  height: calc(var(--u) * 95);
+  pointer-events: none;
+}
+#page_wrap .page_area.chat .chat_list > .chat_box.chat > .inner_box > .obj::before {
+  left: calc(var(--u) * (-8 - 112));
+  background: var(--wing-l) center / 100% 100% no-repeat !important;
+  transform-origin: 59% 57%;           /* 날개 뿌리 */
+  animation:
+    sh-star-in .7s .15s cubic-bezier(.3, 1.5, .5, 1) both,
+    sh-flap-l 1.6s .85s ease-in-out infinite;
+}
+#page_wrap .page_area.chat .chat_list > .chat_box.chat > .inner_box > .obj::after {
+  right: calc(var(--u) * (-8.5 - 112));
+  background: var(--wing-r) center / 100% 100% no-repeat !important;
+  transform-origin: 41% 57%;
+  animation:
+    sh-star-in .7s .15s cubic-bezier(.3, 1.5, .5, 1) both,
+    sh-flap-r 1.6s .85s ease-in-out infinite;
+}
+/* 테두리 반짝임: 크림색 테두리를 따라 빛이 스윽 지나가요 */
+#page_wrap .page_area.chat .chat_list > .chat_box.chat::before {
+  content: '' !important;
+  display: block !important;
+  position: absolute;
+  z-index: 1;
+  top: calc(var(--u) * 40);
+  left: calc(var(--u) * 10);
+  right: calc(var(--u) * 10);
+  bottom: var(--gap);
+  pointer-events: none;
+  background: linear-gradient(105deg, transparent 42%, var(--shine) 50%, transparent 58%) 0 0 / 300% 100% no-repeat !important;
+  -webkit-mask-box-image: var(--glow-mask) 54 112 52 / calc(var(--u) * 54) calc(var(--u) * 112) calc(var(--u) * 52) stretch;
+  animation: sh-shine 4.5s 1s ease-in-out infinite;
+}
+/* 배너 안쪽: 작은 별들이 은은하게 반짝 */
+#page_wrap .page_area.chat .chat_list > .chat_box.chat::after {
+  content: '' !important;
+  display: block !important;
+  position: absolute;
+  z-index: 1;
+  top: calc(var(--u) * (40 + 18));
+  left: calc(var(--u) * (10 + 112));
+  right: calc(var(--u) * (10 + 112));
+  bottom: calc(var(--u) * 16 + var(--gap));
+  border-radius: calc(var(--u) * 8);
+  pointer-events: none;
+  background: var(--sky-twinkle) 0 0 / calc(var(--u) * 600) calc(var(--u) * 300) repeat !important;
+  opacity: .55;
+  mix-blend-mode: screen;
+}
+
+/* ---------- 닉네임 (배너 위에 걸친 리본) ---------- */
+#page_wrap .page_area.chat .chat_list > .chat_box.chat > .inner_box > p.name {
+  position: absolute !important;
+  z-index: 2;
+  top: calc(var(--u) * -69.5) !important;
+  left: 0 !important;
+  right: 0 !important;
+  display: flex !important;
+  float: none !important;
+  align-items: center;
+  justify-content: center !important;
+  box-sizing: border-box;
+  width: max-content !important;
+  max-width: none !important;
+  height: calc(var(--u) * 62.5) !important;
+  min-width: calc(var(--u) * 427);
+  margin: 0 auto !important;
+  padding: 0 calc(var(--u) * 100) calc(var(--u) * 2) !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  overflow: visible !important;
+  white-space: nowrap !important;
+  /* 리본 = 양끝 조각 + 가운데 띠 (가운데 띠를 끝 조각 아래까지 깔아서 이음새 실금이 안 생겨요) */
+  background:
+    var(--pill-l) left top / calc(var(--u) * 100) 100% no-repeat,
+    var(--pill-r) right top / calc(var(--u) * 100) 100% no-repeat,
+    var(--pill-mid) left calc(var(--u) * 60) top / calc(100% - var(--u) * 120) 100% no-repeat !important;
+  animation: sh-pill-in .45s .1s cubic-bezier(.3, 1.5, .5, 1) both;
+}
+#page_wrap .page_area.chat .chat_list > .chat_box.chat > .inner_box > p.name::before {
+  display: none !important;   /* 위플랩 정렬 설정의 ':' 등 */
+}
+/* 플랫폼 아이콘 · 뱃지 · 아이디는 숨김 (시안처럼 이름만) */
+#page_wrap .page_area.chat .chat_list > .chat_box.chat > .inner_box > p.name > :not(.nick),
+#page_wrap .page_area.chat .chat_list > .chat_box.chat > .inner_box > p.name > .nick > .id {
+  display: none !important;
+}
+#page_wrap .page_area.chat .chat_list > .chat_box.chat > .inner_box > p.name,
+#page_wrap .page_area.chat .chat_list > .chat_box.chat > .inner_box > p.name * {
+  color: var(--cream) !important;   /* 닉네임 색도 시안 색으로 통일 */
+  font-family: var(--font) !important;
+  font-size: calc(var(--u) * 28.6) !important;
+  font-weight: 700 !important;
+  line-height: 1 !important;
+  text-shadow: none !important;
+}
+#page_wrap .page_area.chat .chat_list > .chat_box.chat > .inner_box > p.name > .nick {
+  padding: 0 !important;
+  background: none !important;
+}
+/* 닉네임 리본: 빛이 한 번씩 스윽 */
+#page_wrap .page_area.chat .chat_list > .chat_box.chat > .inner_box > p.name::after {
+  content: '' !important;
+  display: block !important;
+  position: absolute;
+  top: calc(var(--u) * 5);
+  bottom: calc(var(--u) * 6);
+  left: calc(var(--u) * 30);
+  right: calc(var(--u) * 30);
+  width: auto !important;
+  border-radius: 999px;
+  pointer-events: none;
+  background: linear-gradient(110deg, transparent 47%, rgba(255, 252, 214, .55) 50%, transparent 53%) 0 0 / 300% 100% no-repeat !important;
+  opacity: .3;   /* 이름표 빛 세기 (1 = 100%) */
+  animation: sh-shine 3.6s 1.4s ease-in-out infinite;
+}
+
+/* ---------- 채팅 내용 ---------- */
+#page_wrap .page_area.chat .chat_list > .chat_box.chat > .inner_box > p.text {
+  position: relative !important;
+  z-index: 2;
+  display: block !important;
+  float: none !important;
+  top: calc(var(--u) * 12);             /* 시안처럼 글자를 배너 가운데보다 살짝 아래로 */
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  color: var(--chat-text) !important;
+  font-family: var(--font) !important;
+  font-size: calc(var(--u) * 52.7) !important;
+  font-weight: 300 !important;
+  line-height: calc(var(--u) * 68) !important;
+  text-align: center !important;
+  text-shadow: 0 0 calc(var(--u) * 10) rgba(170, 190, 255, .55) !important;
+  word-break: keep-all !important;
+  line-break: auto !important;
+  background: none !important;
+}
+#page_wrap .page_area.chat .chat_list > .chat_box.chat > .inner_box > p.text a {
+  color: inherit !important;
+}
+/* 이모티콘 */
+#page_wrap .page_area.chat .chat_list > .chat_box.chat > .inner_box > p.text img {
+  width: auto !important;
+  height: 1.25em !important;
+  max-width: none !important;
+  object-fit: contain;
+  margin: calc(var(--u) * -6) calc(var(--u) * 3) !important;
+  vertical-align: middle;
+}
+
+/* =========================================================
+   후원 (치즈 후원 · 영상 후원 · 미션 · 구독) - 위플랩 "후원 표시: 이미지" 기준
+   ========================================================= */
+#page_wrap .page_area.chat .chat_list > .chat_box.image {
+  position: relative;
+  display: block !important;
+  float: none !important;
+  box-sizing: border-box;
+  width: 100% !important;
+  max-width: none !important;
+  margin: 0 !important;
+  padding: calc(var(--u) * 10) calc(var(--u) * 24) calc(var(--u) * 46 + var(--gap)) calc(var(--u) * 10) !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: none !important;
+  box-shadow: none !important;
+  text-shadow: none !important;
+  animation: sh-in .5s cubic-bezier(.2, .9, .3, 1.2) both !important;
+}
+#page_wrap .page_area.chat .chat_list > .chat_box.image > .inner_box {
+  position: relative !important;
+  display: block !important;
+  width: auto !important;
+  max-width: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: none !important;
+  box-shadow: none !important;
+}
+/* 티켓 본체: 별하늘 + 금테 + DONATION 꼬리표 (9분할) */
+#page_wrap .page_area.chat .chat_list > .chat_box.image > .inner_box > .donation_box {
+  position: relative !important;
+  display: flex !important;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  width: auto !important;
+  max-width: none !important;
+  min-height: calc(var(--u) * 316);
+  overflow: visible !important;
+  margin: 0 !important;
+  padding: calc(var(--u) * 31) calc(var(--u) * 4) calc(var(--u) * 20) calc(var(--u) * 16) !important;
+  border-radius: 0 !important;
+  border-style: solid !important;
+  border-color: transparent !important;
+  border-width: calc(var(--u) * 26) calc(var(--u) * 92) calc(var(--u) * 30) calc(var(--u) * 162) !important;
+  border-image: var(--ticket) 26 92 30 162 fill / calc(var(--u) * 26) calc(var(--u) * 92) calc(var(--u) * 30) calc(var(--u) * 162) stretch !important;
+  background: #040e24 left calc(var(--u) * 20) top calc(var(--u) * 20) / calc(100% - var(--u) * 40) calc(100% - var(--u) * 40) no-repeat !important;
+  background-origin: border-box !important;
+  background-clip: border-box !important;
+  box-shadow: none !important;
+  font-family: var(--font) !important;
+  line-height: 1.35 !important;
+  text-align: center !important;
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+}
+/* DONATION 세로 글자 (꼬리표 가운데) */
+#page_wrap .page_area.chat .chat_list > .chat_box.image > .inner_box > .donation_box::before {
+  content: '' !important;
+  display: block !important;
+  position: absolute;
+  z-index: 1;
+  top: calc(var(--u) * -26);
+  bottom: calc(var(--u) * -30);
+  left: calc(var(--u) * -162);
+  right: calc(var(--u) * -92);
+  width: auto !important;
+  pointer-events: none;
+  background: var(--donation-word) left calc(var(--u) * 51.3) center / calc(var(--u) * 40.5) calc(var(--u) * 227) no-repeat !important;
+}
+/* 오른쪽 아래 큰 별 */
+#page_wrap .page_area.chat .chat_list > .chat_box.image > .inner_box > .donation_box::after {
+  content: '' !important;
+  display: block !important;
+  position: absolute;
+  z-index: 3;
+  top: auto !important;
+  left: auto !important;
+  right: calc(var(--u) * -105);
+  bottom: calc(var(--u) * -63);
+  width: calc(var(--u) * 166);
+  height: calc(var(--u) * 166);
+  pointer-events: none;
+  background: var(--star-r) center / 100% 100% no-repeat !important;
+  transform: rotate(-14deg);
+  animation: sh-star-in-big .8s .2s cubic-bezier(.3, 1.5, .5, 1) both;
+}
+/* 큰 별 날개: 계속 파닥파닥 */
+#page_wrap .page_area.chat .chat_list > .chat_box.image > .inner_box::after {
+  content: '' !important;
+  display: block !important;
+  position: absolute;
+  z-index: 2;
+  right: calc(var(--u) * -13);
+  bottom: calc(var(--u) * -33);
+  width: calc(var(--u) * 166);
+  height: calc(var(--u) * 166);
+  pointer-events: none;
+  background: var(--wing-r) center / 100% 100% no-repeat !important;
+  transform-origin: 50% 50%;
+  transform: rotate(-14deg);
+  animation:
+    sh-star-in-big .8s .2s cubic-bezier(.3, 1.5, .5, 1) both,
+    sh-flap-don 1.6s 1s ease-in-out infinite;
+}
+/* 별하늘: 배경 별들이 계속 반짝반짝 */
+#page_wrap .page_area.chat .chat_list > .chat_box.image > .inner_box::before {
+  content: '' !important;
+  display: block !important;
+  position: absolute;
+  z-index: 1;
+  top: calc(var(--u) * 18);
+  left: calc(var(--u) * 150);
+  right: calc(var(--u) * 18);
+  bottom: calc(var(--u) * 18);
+  pointer-events: none;
+  background: var(--sky-twinkle) 0 0 / calc(var(--u) * 600) calc(var(--u) * 300) repeat !important;
+}
+/* 금테 반짝임: 금색 테두리를 따라 빛이 스윽 지나가요 */
+#page_wrap .page_area.chat .chat_list > .chat_box.image::before {
+  content: '' !important;
+  display: block !important;
+  position: absolute;
+  z-index: 1;
+  top: calc(var(--u) * (10 + 19));
+  left: calc(var(--u) * (10 + 146));
+  right: calc(var(--u) * (24 + 30));
+  bottom: calc(var(--u) * (46 + 20.6) + var(--gap));
+  box-sizing: border-box;
+  border: calc(var(--u) * 4) solid transparent;
+  pointer-events: none;
+  background: linear-gradient(105deg, transparent 42%, var(--shine) 50%, transparent 58%) border-box 0 0 / 300% 100% no-repeat !important;
+  -webkit-mask: linear-gradient(#000 0 0) padding-box, linear-gradient(#000 0 0) border-box;
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  filter: blur(calc(var(--u) * 1));
+  animation: sh-shine 4.5s 1s ease-in-out infinite;
+}
+/* 안쪽 묶음은 풀어서 (닉네임 → 금액 → 메시지 순서로 다시 세워요) */
+#page_wrap .page_area.chat .chat_list > .chat_box.image > .inner_box > .donation_box > .text_box,
+#page_wrap .page_area.chat .chat_list > .chat_box.image > .inner_box > .donation_box > .msg_box {
+  display: contents !important;
+}
+#page_wrap .page_area.chat .chat_list > .chat_box.image > .inner_box > .donation_box > .img_box {
+  display: none !important;
+}
+/* 닉네임: 티켓 안 가운데, 크림색 테두리 상자 + 양끝 반짝이 */
+#page_wrap .page_area.chat .chat_list > .chat_box.image > .inner_box > .donation_box > .text_box > .nick {
+  order: 1;
+  position: relative;
+  z-index: 2;
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  gap: 0 calc(var(--u) * 8) !important;
+  box-sizing: border-box;
+  height: calc(var(--u) * 43.6) !important;
+  min-width: calc(var(--u) * 381.8);
+  margin: 0 !important;
+  padding: calc(var(--u) * 2) calc(var(--u) * 34) 0 !important;
+  border: max(1px, calc(var(--u) * 1.6)) solid var(--cream) !important;
+  border-radius: 0 !important;
+  background: none !important;
+  color: var(--cream) !important;
+  font-family: var(--font) !important;
+  font-size: calc(var(--u) * 31.5) !important;
+  font-weight: 500 !important;
+  line-height: 1 !important;
+  text-shadow: none !important;
+  white-space: nowrap;
+}
+#page_wrap .page_area.chat .chat_list > .chat_box.image > .inner_box > .donation_box > .text_box > .nick::before {
+  content: '' !important;
+  display: block !important;
+  position: absolute;
+  top: 50%;
+  left: calc(var(--u) * -11);
+  right: calc(var(--u) * -11);
+  height: calc(var(--u) * 38);
+  transform: translateY(-50%);
+  pointer-events: none;
+  background:
+    var(--tip) left center / calc(var(--u) * 20) 100% no-repeat,
+    var(--tip) right center / calc(var(--u) * 20) 100% no-repeat !important;
+}
+#page_wrap .page_area.chat .chat_list > .chat_box.image > .inner_box > .donation_box > .text_box > .nick .icon_badge {
+  display: none !important;
+}
+#page_wrap .page_area.chat .chat_list > .chat_box.image > .inner_box > .donation_box > .text_box > .nick .type {
+  color: var(--cream) !important;   /* [영상후원] [미션] 표시 */
+  font-weight: 300 !important;
+}
+/* 금액 ("10,000치즈"): 크게 + 흰색 + 양옆 반짝이 */
+#page_wrap .page_area.chat .chat_list > .chat_box.image > .inner_box > .donation_box > .msg_box > .val {
+  order: 2;
+  position: relative;
+  z-index: 2;
+  display: block !important;
+  width: fit-content;
+  margin: calc(var(--u) * 12.2) auto 0 !important;
+  padding: 0 calc(var(--u) * 58) !important;
+  color: var(--don-amount) !important;
+  font-family: var(--font) !important;
+  font-size: calc(var(--u) * 61.3) !important;
+  font-weight: 500 !important;
+  line-height: calc(var(--u) * 86) !important;
+  text-shadow: 0 0 calc(var(--u) * 10) rgba(255, 255, 255, .45) !important;
+  background:
+    var(--twinkle-w) left center / calc(var(--u) * 36) calc(var(--u) * 36) no-repeat,
+    var(--twinkle-w) right center / calc(var(--u) * 36) calc(var(--u) * 36) no-repeat !important;
+}
+#page_wrap .page_area.chat .chat_list > .chat_box.image > .inner_box > .donation_box > .msg_box > .val::after {
+  content: var(--don-unit);
+}
+#page_wrap .page_area.chat .chat_list > .chat_box.image > .inner_box > .donation_box > .msg_box > .val > .icon_chzzk {
+  display: none !important;
+}
+/* 후원 메시지 */
+#page_wrap .page_area.chat .chat_list > .chat_box.image > .inner_box > .donation_box > .text_box > .msg,
+#page_wrap .page_area.chat .chat_list > .chat_box.image > .inner_box > .donation_box > .msg_box > .msg {
+  order: 3;
+  position: relative;
+  z-index: 2;
+  display: block !important;
+  margin: calc(var(--u) * 4) 0 0 !important;
+  padding: 0 calc(var(--u) * 60) !important;
+  border-radius: 0 !important;
+  background: none !important;
+  color: var(--don-text) !important;
+  font-family: var(--font) !important;
+  font-size: calc(var(--u) * 35) !important;
+  font-weight: 300 !important;
+  line-height: calc(var(--u) * 47) !important;
+  text-shadow: none !important;
+  word-break: keep-all !important;
+}
+#page_wrap .page_area.chat .chat_list > .chat_box.image > .inner_box > .donation_box .msg img {
+  width: auto !important;
+  height: 1.3em !important;
+  vertical-align: middle;
+}
+/* 구독: "3개월 구독 중이에요🎉" 를 금액 자리에 크게 */
+#page_wrap .page_area.chat .chat_list > .chat_box.image > .inner_box > .donation_box.subscribe > .text_box > .msg {
+  order: 2;
+  width: fit-content;
+  margin: calc(var(--u) * 12.2) auto 0 !important;
+  padding: 0 calc(var(--u) * 58) !important;
+  color: var(--don-amount) !important;
+  font-size: calc(var(--u) * 50) !important;
+  font-weight: 500 !important;
+  line-height: calc(var(--u) * 86) !important;
+  text-shadow: 0 0 calc(var(--u) * 10) rgba(255, 255, 255, .45) !important;
+  background:
+    var(--twinkle-w) left center / calc(var(--u) * 36) calc(var(--u) * 36) no-repeat,
+    var(--twinkle-w) right center / calc(var(--u) * 36) calc(var(--u) * 36) no-repeat !important;
+}
+#page_wrap .page_area.chat .chat_list > .chat_box.image > .inner_box > .donation_box.subscribe > .text_box > .msg .val {
+  color: inherit !important;
+}
+#page_wrap .page_area.chat .chat_list > .chat_box.image > .inner_box > .donation_box.subscribe::before {
+  width: auto !important;   /* 위플랩 기본 구독 초록 줄 대신 DONATION 글자 */
+}
+
+/* =========================================================
+   후원 표시가 "글자"로 설정된 경우: 남색 상자에 크림색 글자
+   ========================================================= */
+#page_wrap .page_area.chat .chat_list > .chat_box.text:not(.join) {
+  float: none !important;
+  margin: calc(var(--u) * 10) calc(var(--u) * 20) var(--gap) !important;
+  padding: calc(var(--u) * 22) calc(var(--u) * 30) !important;
+  border: max(1px, calc(var(--u) * 2)) solid rgba(253, 255, 208, .7) !important;
+  border-radius: calc(var(--u) * 18) !important;
+  background: rgba(20, 28, 64, .9) !important;
+  text-align: center !important;
+}
+#page_wrap .page_area.chat .chat_list > .chat_box.text:not(.join) p.name {
+  display: none !important;
+}
+#page_wrap .page_area.chat .chat_list > .chat_box.text:not(.join) p.text {
+  display: block !important;
+  color: var(--cream) !important;
+  font-family: var(--font) !important;
+  font-size: calc(var(--u) * 38) !important;
+  font-weight: 500 !important;
+  line-height: 1.45 !important;
+  text-shadow: none !important;
+  word-break: keep-all !important;
+}
+/* 입장 알림 등 한 줄 안내 */
+#page_wrap .page_area.chat .chat_list > .chat_box.join p.text {
+  color: var(--cream) !important;
+  font-family: var(--font) !important;
+  font-size: calc(var(--u) * 30) !important;
+  font-weight: 300 !important;
+  text-align: center !important;
+  text-shadow: 0 0 calc(var(--u) * 6) rgba(10, 16, 48, .9) !important;
+}
+
+/* ---------- 모션 ---------- */
+@keyframes sh-in {
+  0%   { opacity: 0; transform: translateY(calc(var(--u) * 26)) scale(.94); }
+  60%  { opacity: 1; transform: translateY(calc(var(--u) * -3)) scale(1.01); }
+  100% { opacity: 1; transform: none; }
+}
+@keyframes sh-unfold {
+  0%   { opacity: 0; transform: scaleX(.15); }
+  60%  { opacity: 1; transform: scaleX(1.02); }
+  100% { opacity: 1; transform: none; }
+}
+@keyframes sh-pill-in {
+  0%   { opacity: 0; transform: scale(.6); }
+  100% { opacity: 1; transform: none; }
+}
+@keyframes sh-star-in {
+  0%   { opacity: 0; transform: translateY(calc(var(--u) * 20)) scale(.6); }
+  100% { opacity: 1; transform: none; }
+}
+@keyframes sh-star-in-big {
+  0%   { opacity: 0; transform: rotate(-60deg) scale(.3); }
+  100% { opacity: 1; transform: rotate(-14deg); }
+}
+/* 날개 파닥파닥 (날개 뿌리를 축으로) */
+@keyframes sh-flap-l {
+  0%, 100% { transform: rotate(0); }
+  50%      { transform: rotate(-16deg); }
+}
+@keyframes sh-flap-r {
+  0%, 100% { transform: rotate(0); }
+  50%      { transform: rotate(16deg); }
+}
+@keyframes sh-flap-don {
+  0%, 100% { transform: rotate(-14deg) translate(calc(var(--u) * -14.9), calc(var(--u) * 11.6)) rotate(0)     translate(calc(var(--u) * 14.9), calc(var(--u) * -11.6)); }
+  50%      { transform: rotate(-14deg) translate(calc(var(--u) * -14.9), calc(var(--u) * 11.6)) rotate(16deg) translate(calc(var(--u) * 14.9), calc(var(--u) * -11.6)); }
+}
+/* 테두리를 따라 빛이 지나간 뒤 잠깐 쉬어요 */
+@keyframes sh-shine {
+  0%        { background-position: 100% 0; }
+  55%, 100% { background-position: 0% 0; }
+}
+@keyframes sh-glow {
+  0%, 100% { opacity: .85; filter: none; }
+  50%      { opacity: 1; filter: drop-shadow(0 0 calc(var(--u) * 4) rgba(253, 255, 208, .9)); }
+}
